@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponse
 
-def index(request):
-    return HttpResponse("페이지 생성!")
+
+def main_page(request):
+    return render(request, "firstapp/index.html")
