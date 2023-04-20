@@ -7,10 +7,10 @@ class User(models.Model):
     user_email = models.EmailField(max_length=130, unique=True, verbose_name='유저 이메일')
     user_register_dttm = models.DateTimeField(auto_now_add=True, verbose_name='계정 생성시간')
 
-def __str__(self):
-    return self.user_name
+    def __str__(self):
+        return self.user_name
 
-class Meta:
-    db_table = 'user'
-    verbose_name = '유저관리'
-    verbose_name_plural = '유저관리'
+    class Meta:
+        db_table = 'sign_up'
+        verbose_name = '유저관리'
+        verbose_name_plural = '유저관리'

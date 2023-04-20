@@ -5,27 +5,17 @@
 
 <form action="" method="POST">
     {% csrf_token %}
+    
+    {% for form in forms %}
     <div>
-        <label for="id">ID</label>
-        <input type="text" id="id" placeholder="아이디를 입력하세요" name="id">
+        <label for="{{ form.id_for_label }}">{{ form.label }}</label>
+        {{ form }}
     </div>
-    <div>
-        <label for="pw">PASSWORD</label>
-        <input type="password" id="pw" placeholder="비밀번호를 입력하세요" name="pw">
-    </div>
-    <div>
-        <label for="pw-confirm">VERIFY PASSWORD</label>
-        <input type="password" id="pw-confirm" placeholder="비밀번호를 한번 더 입력하세요" name="pw-confirm">
-    </div>
-    <div>
-        <label for="name">NAME</label>
-        <input type="text" id="name" placeholder="이름 입력하세요" name="name">
-    </div>
-    <div>
-        <label for="email">EMAIL</label>
-        <input type="email" id="email" placeholder="이메일을 입력하세요" name="email">
-    </div>
+    {% endfor %}
 
+    {% if error %}
+    {{ error }}
+    {% endif %}
     <button type="submit" name="register-submit" value="register">회원가입하기</button>
 
 </form>
