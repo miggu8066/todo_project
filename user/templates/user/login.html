@@ -3,7 +3,7 @@
 
 {% block contents %}
 
-<h2>회원가입</h2>
+<h2>LOGIN</h2>
 <br>
 <form action="" method="POST">
     {% csrf_token %}
@@ -18,7 +18,7 @@
     {% if error %}
     {{ error }}
     {% endif %}
-    <button type="submit" name="register-submit" value="register">회원가입하기</button>
+    <button type="submit" name="register-submit" value="register">로그인하기</button>
 
 </form>
 
