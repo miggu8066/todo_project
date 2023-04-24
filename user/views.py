@@ -40,6 +40,8 @@ def login(request):
         loginform = LoginForm(request.POST)
 
         if loginform.is_valid():
+            request.session['login_session'] = loginform.login_session
+            request.session.set_expiry(0)
             return redirect('/')
         else:
             context['forms'] = loginform
@@ -47,3 +49,7 @@ def login(request):
                 for value in loginform.errors.values():
                     context['error'] = value
         return render(request, 'user/login.html', context)
+
+def logout(request):
+    request.session.flush()
+    return redirect('/')

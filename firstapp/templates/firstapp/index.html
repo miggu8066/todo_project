@@ -10,8 +10,14 @@
 <body>
     <h1>TO_DO_LIST 메인페이지</h1>
     <a href="{% url 'todo_main:main_page' %}"><button>홈으로</button></a>
+
+    {% if login_session %}
+    <a href="{% url 'user:logout' %}"><button>로그아웃</button></a>
+    {% else %}
     <a href="{% url 'user:login' %}"><button>로그인</button></a>
     <a href="{% url 'user:register' %}"><button>회원가입</button></a>
+    {% endif %}
+
     <div style="border: 1px black solid; margin: 20px 0px;"></div>
     {% block contents %}
     {% endblock contents %}
