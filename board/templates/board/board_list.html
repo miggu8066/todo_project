@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% extends 'firstapp/index.html' %}
+
+{% block contents %}
+<div>게시판</div>
+<div><a href="{% url 'board:board_write' %}"><button>글쓰기</button></a></div>
+<div style="border: 1px black solid; margin: 20px 0x;"></div>
+
+<div class="board">
+    <div class="py-board">
+
+    </div>
+    <div class="js-board">
+
+    </div>
+</div>
+
+<style>
+    
+</style>
+{% endblock contents %}

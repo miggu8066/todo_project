@@ -2,12 +2,10 @@
 {% extends 'firstapp/index.html' %}
 
 {% block contents %}
-
-<h2>LOGIN</h2>
-<br>
+<div>게시판 글쓰기</div>
 <form action="" method="POST">
     {% csrf_token %}
-    
+
     {% for form in forms %}
     <div>
         <label for="{{ form.id_for_label }}">{{ form.label }}</label>
@@ -18,8 +16,6 @@
     {% if error %}
     {{ error }}
     {% endif %}
-    <button type="submit" name="login-submit" value="login">로그인하기</button>
-
+    <button tybe="submit">투고 하기</button>
 </form>
-
 {% endblock contents %}
