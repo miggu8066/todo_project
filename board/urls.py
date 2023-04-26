@@ -7,4 +7,5 @@ urlpatterns = [
     path("write", views.board_write, name='board_write'),
     path("detail/<int:pk>/", views.board_detail, name='board_detail'),
     path("detail/<int:pk>/delete/", views.board_delete, name='board_delete'),
+    path("detail/<int:pk>/modify/", views.board_modify, name='board_modify'),
 ]
