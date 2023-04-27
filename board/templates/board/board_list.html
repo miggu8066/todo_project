@@ -2,46 +2,23 @@
 {% extends 'firstapp/index.html' %}
 
 {% block contents %}
-<div>게시판</div>
-<div><a href="{% url 'board:board_write' %}"><button>글쓰기</button></a></div>
-<div style="border: 1px black solid; margin: 20px 0x;"></div>
 
-<div class="board">
-    <div class="py-board">
-        <p>(파이썬 게시판)</p>
-        {% for board in py_boards %}
-        {% if board %}
-        <a href="/board/detail/{{ board.id }}" target="_self">
-            <div>{{ board.title }} / {{ board.writer }} / {{ board.write_dttm }}</div>
-        </a>
-        {% endif %}
-        {% endfor %}
-    </div>
-    <div class="js-board">
-        <P>(자바스크립트 게시판)</P>
-        {% for board in js_boards %}
-        {% if board %}
-        <a href="/board/detail/{{ board.id }}" target="_self">
-            <div>{{ board.title }} / {{ board.writer }} / {{ board.write_dttm }}</div>
-        </a>
-        {% endif %}
-        {% endfor %}
-    </div>
+<div class="board_write">
+    <H2>게시판</H2>
+    <div><a href="{% url 'board:board_write' %}"><button>글쓰기</button></a></div>
+    <div style="border: 1px black solid; margin: 20px 0x;"></div>
 </div>
 
-<style>
-    .board {
-        display: flex;
-    }
-
-    .py-board {
-        width: 50%;
-    }
-
-    .js-board {
-        width: 50%;
-        border-left: 2px black double;
-        padding-left: 25px;
-    }
-</style>
+{% for board in boards %}
+<div style="text-align: center;">
+    <a href="/board/detail/{{ board.pk }}/" style="color: black;">
+        <tr>
+            <td>{{ board.title }}</td>
+            <td>{{ board.writer.user_name }}</td>
+            <td>{{ board.write_dttm|date:"Y-m-d" }}</td>
+        </tr>
+    </a>
+</div>
+{% endfor %}
+{% include 'board/pagination.html' %}
 {% endblock contents %}

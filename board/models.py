@@ -6,7 +6,7 @@ class Board(models.Model):
     contents = models.TextField(verbose_name='글 내용')
     write_dttm = models.DateTimeField(auto_now_add=True, verbose_name='글 작성일')
 
-    board_name = models.CharField(max_length=32, default='python', verbose_name='게시판 종류')
+    board_name = models.CharField(max_length=32, default='1번', verbose_name='게시판 종류')
     update_dttm = models.DateTimeField(auto_now=True, verbose_name='마지막 수정일')
     hits = models.PositiveIntegerField(default=0, verbose_name='조회수')
 

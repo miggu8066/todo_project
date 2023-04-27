@@ -4,6 +4,7 @@ from .models import Board
 from user.models import User
 from user.decorators import login_required
 from datetime import date, datetime, timedelta
+from .pagination import pagination
 
 @login_required
 def board_modify(request, pk):
@@ -83,12 +84,9 @@ def board_list(request):
     login_session = request.session.get('login_session', '')
     context = { 'login_session' : login_session }
 
-    py_boards = Board.objects.filter(board_name='python')
-    js_boards = Board.objects.filter(board_name='JavaScript')
-
-    context['py_boards'] = py_boards
-    context['js_boards'] = js_boards
-
+    page = pagination(request, Board)
+    context.update(page)
+    
     return render(request, 'board/board_list.html', context)
 
 @login_required

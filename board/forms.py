@@ -17,8 +17,8 @@ class BoardWriteForm(forms.ModelForm):
     contents = SummernoteTextField()
 
     options = (
-        ('python', '파이썬 게시판'),
-        ('javaScript', '자바스크립트 게시판')
+        ('number1', '1번 게시판'),
+        ('number2', '2번 게시판')
     )
 
     board_name = forms.ChoiceField(
