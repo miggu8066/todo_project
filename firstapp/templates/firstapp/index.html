@@ -1,16 +1,12 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-    <link rel="stylesheet" href="../../../static/css/uikit.min.css" />
-    <script src="../../../static/js/uikit.min.js"></script>
-    <script src="../../../static/js/uikit-icons.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>TO_DO_page!</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TO_DO_page!</title>
+    <link href="../../../static/test.css?after" rel="stylesheet">
 </head>
-<body class="main_body">
+<body>
     <h1 class="main_name">TODO_LIST</h1>
     <a href="{% url 'todo_main:main_page' %}"><button>홈으로</button></a>
     <a href="{% url 'board:board_list' %}"><button>게시판</button></a>
@@ -26,17 +22,4 @@
     {% block contents %}
     {% endblock contents %}
 </body>
-<style>
-    .main_body{
-        background-color: palegoldenrod;
-        text-align: center;
-    }
-    .main_name {
-        height: 100px;
-        display: flex;
-        text-align: center;
-        justify-content: center;
-        align-items: center
-    }
-</style>
 </html>
