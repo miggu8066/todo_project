@@ -3,7 +3,7 @@
 
 {% block contents %}
 
-<div class="board_write">
+<div class="">
     <H2>게시판</H2>
     <div><a href="{% url 'board:board_write' %}"><button>글쓰기</button></a></div>
     <div style="border: 1px black solid; margin: 20px 0x;"></div>
@@ -20,5 +20,4 @@
     </a>
 </div>
 {% endfor %}
-{% include 'board/pagination.html' %}
 {% endblock contents %}
