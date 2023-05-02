@@ -4,7 +4,7 @@ from .models import Board
 from user.models import User
 from user.decorators import login_required
 from datetime import date, datetime, timedelta
-from .pagination import pagination
+from django.core.paginator import Paginator
 
 @login_required
 def board_modify(request, pk):
@@ -84,8 +84,13 @@ def board_list(request):
     login_session = request.session.get('login_session', '')
     context = { 'login_session' : login_session }
 
-    page = pagination(request, Board)
-    context.update(page)
+    page = request.GET.get('page','1') # 페이지
+    all_boards = Board.objects.order_by('-id')
+
+    paginator = Paginator(all_boards, 3) # 페이지당 10개 씩 보여주기
+    page_obj = paginator.get_page(page)
+    
+    context['board_list'] = page_obj
     
     return render(request, 'board/board_list.html', context)
 
