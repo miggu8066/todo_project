@@ -9,16 +9,14 @@
 </head>
 <body>
     <a href="{% url 'todo_main:main_page' %}" class=""><h1>TODO_LIST</h1></a>
-    <a href="{% url 'board:board_list' %}"><button type="button" class="btn btn-outline-dark">게시판</button></a>
-
     {% if login_session %}
+    <a href="{% url 'board:board_list' %}"><button type="button" class="btn btn-outline-dark">게시판</button></a>
     <a href="{% url 'user:logout' %}"><button type="button" class="btn btn-outline-dark">로그아웃</button></a>
     {% else %}
     <a href="{% url 'user:login' %}"><button type="button" class="btn btn-outline-dark">로그인</button></a>
     <a href="{% url 'user:register' %}"><button type="button" class="btn btn-outline-dark">회원가입</button></a>
     {% endif %}
 
-    <div style="border: 1px black solid; margin: 20px 0px;"></div>
     {% block contents %}
     {% endblock contents %}
 </body>

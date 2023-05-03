@@ -25,6 +25,7 @@ urlpatterns = [
     path("", RedirectView.as_view(url="/main/", permanent=True)),
     path("user/", include("user.urls")),
     path("board/", include("board.urls")),
+    path("todo/", include("todo.urls")),
 ]
 
 urlpatterns += [path('summernote/', include('django_summernote.urls'))]

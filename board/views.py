@@ -79,7 +79,6 @@ def board_detail(request, pk):
         board.save()
     return response
 
-
 def board_list(request):
     login_session = request.session.get('login_session', '')
     context = { 'login_session' : login_session }
