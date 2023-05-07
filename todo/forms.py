@@ -4,7 +4,7 @@ from .models import Todo_list
 class TodoItemsForm(forms.ModelForm):
     class Meta:
         model = Todo_list
-        exclude = ['todo_content']
+        exclude = ['writer']
     
     todo_content = forms.CharField(
         max_length=225,
@@ -16,6 +16,10 @@ class TodoItemsForm(forms.ModelForm):
         ),
     )
 
+    field_order = [
+        'todo_content'
+    ]
+    
     def clean(self):
         cleaned_data = super().clean()
 

@@ -11,3 +11,4 @@ class Todo_list(models.Model):
         db_table = 'todo_item'
         verbose_name = '투두아이템'
         verbose_name_plural = '투두아이템'
+        
