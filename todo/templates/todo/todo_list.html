@@ -1,7 +1,7 @@
 {% extends 'firstapp/index.html' %}
 
 {% block contents %}
-
+<html>
 <body>
     <div class="">
         <form action="" method="POST">
@@ -9,16 +9,20 @@
             <div class="">
                 {{ Items }}
                 <span>
-                <button type="submit">메모하기!</button>
+                <button type="submit" name="add_todo">메모하기!</button>
                 </span>
             </div>
         </form>
         {% for show in todo_list %}
         <div class="">
-            <li class="">{{ show.todo_content }}</li>
-            <span>
-                <button type="submit">할일 완료</button>
-            </span>
+            <form action="/todo/item/" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="todo_id" value="{{ show.id }}">
+                <li class="">{{ show.todo_content }}</li>
+                <span>
+                    <button type="submit" name="delete_todo">할일 완료</button>
+                </span>
+            </form>
         {% endfor %}
         {% if error %}
         {{ error }}

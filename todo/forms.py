@@ -29,3 +29,10 @@ class TodoItemsForm(forms.ModelForm):
             self.add_error('todo_content', '내용을 입력하세요')
         else:
             self.todo_content = todo_content
+
+class TodoDeleteForm(forms.ModelForm):
+    todo_id = forms.IntegerField(widget=forms.HiddenInput())
+
+    class Meta:
+        model = Todo_list
+        fields = ('todo_id',)
