@@ -3,5 +3,5 @@ from . import views
 
 app_name = 'todo'
 urlpatterns = [
-    path("", views.todo_main, name='todo_main'),
+    path("item/", views.todo_main, name='todo_main'),
 ]

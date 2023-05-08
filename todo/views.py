@@ -7,13 +7,14 @@ from user.decorators import login_required
 @login_required
 def todo_main(request):
     login_session = request.session.get('login_session', '')
-    context = { 'login_session' : login_session }
-
+    
     if request.method == 'GET':
-        Itemsform = TodoItemsForm()
-        context['Items'] = Itemsform
-        todo_list = Todo_list.objects.all()
-        context['todo_list'] = todo_list
+        todo_list = Todo_list.objects.filter(writer__user_id=login_session)
+        context = {
+            'todo_list': todo_list,
+            'login_session': login_session,
+            'Items': TodoItemsForm(),
+        }
         return render(request, "todo/todo_list.html", context)
     
     elif request.method == 'POST':
@@ -23,15 +24,16 @@ def todo_main(request):
             writer = User.objects.get(user_id=login_session)
             todo_list = Todo_list(
                 writer = writer,
-                todo_content = Itemsform.cleaned_data['todo_content']
+                todo_content = Itemsform.cleaned_data['todo_content'],
             )
             todo_list.save()
             return redirect('/todo/')
         else:
-            context['Items'] = Itemsform
+            context = {
+                'Items': Itemsform,
+                'login_session': login_session,
+            }
             if Itemsform.errors:
                 for value in Itemsform.errors.values():
                     context['error'] = value
-            todo_list = Todo_list.objects.all()
-            context['todo_list'] = todo_list
             return render(request, "todo/todo_list.html", context)
