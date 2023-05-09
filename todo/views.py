@@ -40,19 +40,22 @@ def todo_main(request):
                         context['error'] = value
                 return render(request, "todo/todo_list.html", context)
         
-        elif 'delete_todo' in request.POST:
-            DeleteForm = TodoDeleteForm(request.POST)
-            if DeleteForm.is_valid():
-                todo_id = DeleteForm.cleaned_data['todo_id']
-                Todo_list.objects.filter(id = todo_id).delete()
-                return redirect('/todo/item/')
-            else:
-                context = {
-                    'Items': TodoItemsForm(),
-                    'DeleteForm' : TodoDeleteForm(),
-                    'login_session': login_session,
-                }
-                if DeleteForm.errors:
-                    for value in DeleteForm.errors.values():
-                        context['error'] = value
-                return render(request, "todo/todo_list.html", context)
+        if 'delete_todo' in request.POST:
+                DeleteForm = TodoDeleteForm(request.POST)
+
+                if DeleteForm.is_valid():
+                    if request.POST.get('checkbox'):
+                        todo_id = DeleteForm.cleaned_data['id']
+                        Todo_list.objects.filter(id = todo_id).delete()
+                        return redirect('/todo/item/')
+                    else:
+                        context = {
+                            'Items': TodoItemsForm(),
+                            'DeleteForm' : TodoDeleteForm(),
+                            'login_session': login_session,
+                            'error' : '체크박스를 선택하세요.'
+                        }
+                        if DeleteForm.errors:
+                            for value in DeleteForm.errors.values():
+                                context['error'] = value
+                        return render(request, "todo/todo_list.html", context)

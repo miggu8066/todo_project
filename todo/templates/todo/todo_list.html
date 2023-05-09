@@ -2,6 +2,13 @@
 
 {% block contents %}
 <html>
+<head>
+    <style>
+        input[type=checkbox]:checked + label {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
 <body>
     <div class="">
         <form action="" method="POST">
@@ -17,8 +24,9 @@
         <div class="">
             <form action="/todo/item/" method="POST">
                 {% csrf_token %}
-                <input type="hidden" name="todo_id" value="{{ show.id }}">
-                <li class="">{{ show.todo_content }}</li>
+                <input type="hidden" name="id" value="{{ show.pk }}">
+                <input type="checkbox" id="{{ show.pk }}" name="checkbox">
+                <label for="{{ show.pk }}">{{ show.todo_content }}</label>
                 <span>
                     <button type="submit" name="delete_todo">할일 완료</button>
                 </span>
@@ -29,6 +37,19 @@
         {% endif %}
         </div>
     </div>
+    <script>
+        const deleteForms = document.querySelectorAll('[id^="delete-form-"]');
+
+        deleteForms.forEach((form) => {
+            form.addEventListener('submit', (event) => {
+                const checkbox = form.elements.checkbox;
+                if (!checkbox.checked) {
+                    event.preventDefault();
+                    alert('체크박스를 선택하세요.');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
 {% endblock contents %}

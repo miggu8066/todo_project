@@ -31,8 +31,8 @@ class TodoItemsForm(forms.ModelForm):
             self.todo_content = todo_content
 
 class TodoDeleteForm(forms.ModelForm):
-    todo_id = forms.IntegerField(widget=forms.HiddenInput())
+    id = forms.IntegerField(widget=forms.HiddenInput())
 
     class Meta:
         model = Todo_list
-        fields = ('todo_id',)
+        fields = ('id',)
