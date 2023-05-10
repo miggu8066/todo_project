@@ -1,8 +1,15 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import User
 from django.db import transaction
 from argon2 import PasswordHasher
 from .forms import RegisterFrom, LoginForm
+
+def forgetid(request):
+    return render(request, 'user/forget_id.html')
+
+def forgetpw(request):
+    return render(request, 'user/forget_pw.html')
 
 def register(request):
     register_form = RegisterFrom()

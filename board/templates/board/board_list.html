@@ -3,24 +3,28 @@
 
 {% block contents %}
 
-<div class="">
+<div class="container">
     <H2>게시판</H2>
     <div>
         <a href="{% url 'board:board_write' %}">
-            <button type="button" class="btn btn-outline-dark">글쓰기</button></a>
+        <button type="button" class="btn btn-outline-dark">글쓰기</button></a>
     </div>
-    <div style="border: 1px black solid; margin: 20px 0x;"></div>
-</div>
+    <div class="row border-top border-bottom py-2">
+        <div class="col-3">작성자</div>
+        <div class="col-6">제목</div>
+        <div class="col-3">작성일</div>
+    </div>
 
-{% for board in board_list %}
-<div class="list-group">
-    <a href="/board/detail/{{ board.pk }}/" class="list-group-item list-group-item-action">
-        <tr>
-            <td>{{ board.title }}</td>
-            <td>{{ board.write_dttm|date:"Y-m-d" }}</td>
-        </tr>
-    </a>
+    {% for board in board_list %}
+    <div class="row py-2">
+        <div class="col-3">{{ board.writer }}</div>
+        <div class="col-6">
+            <a href="/board/detail/{{ board.pk }}/" class="text-dark">{{ board.title }}</a>
+        </div>
+        <div class="col-3">{{ board.write_dttm|date:"Y-m-d" }}</div>
+    </div>
+    {% endfor %}
 </div>
-{% endfor %}
+</html>
 {% include 'board/pagination.html' %}
 {% endblock contents %}
