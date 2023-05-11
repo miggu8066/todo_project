@@ -11,7 +11,9 @@ class TodoItemsForm(forms.ModelForm):
         required=True,
         widget=forms.TextInput(
             attrs={
-                'placeholder' : 'TODAY_ITEM'
+                'placeholder' : '',
+                'class' : "form-control form-control-lg",
+                'id' : "form3"
             }
         ),
     )

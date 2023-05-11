@@ -51,17 +51,22 @@
 			<div class="col align-items-center flex-col sign-in">
 				<div class="form-wrapper align-items-center">
 					<div class="form sign-in">
-						<div class="input-group">
-							<i class='bx bxs-user'></i>
-							<input type="text" placeholder="Username">
-						</div>
-						<div class="input-group">
-							<i class='bx bxs-lock-alt'></i>
-							<input type="password" placeholder="Password">
-						</div>
-						<button>
-							로그인
-						</button>
+						<form action="" method="POST">
+							{% csrf_token %}
+							{% for form in forms %}
+							<div class="input-group">
+								<!-- <label for="{{ form.id_for_label }}">{{ form.label }}</label> -->
+								{{ form }}
+							</div>
+							{% endfor %}
+					
+							{% if error %}
+							<div class="alert alert-danger" role="alert">{{ error }}</div>
+							{% endif %}
+							<div class="input-group">
+								<button type="submit" name="login-submit" value="login">로그인하기</button>
+							</div>
+						</form>
 						<p>
 							<b>
 								Forgot password?
@@ -89,8 +94,11 @@
 			<!-- SIGN IN CONTENT -->
 			<div class="col align-items-center flex-col">
 				<div class="text sign-in">
-					<h2>
+					<h2 style="font-size: 200px;">
 						TODO
+					</h2>
+					<h2 class="text sign-in">
+						<small style="color: black;">with django</small>
 					</h2>
 	
 				</div>

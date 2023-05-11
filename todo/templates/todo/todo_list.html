@@ -1,40 +1,72 @@
 {% extends 'firstapp/index.html' %}
-
-{% block contents %}
-<html>
+<!DOCTYPE html>
+<html lang="kr">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.css" rel="stylesheet"/>
     <style>
         input[type=checkbox]:checked + label {
             text-decoration: line-through;
         }
     </style>
+    <title>todo item</title>
 </head>
+{% block contents %}
 <body>
-    <div class="">
-        <form action="" method="POST">
-            {% csrf_token %}
-            <div class="">
-                {{ Items }}
-                <span>
-                <button type="submit" name="add_todo">메모하기!</button>
-                </span>
+    <section class="vh-100" style="background: linear-gradient(to bottom right, #b1e7d3,#ffffff);">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col col-xl-10">
+                    <div class="card" style="border-radius: 15px;">
+                        <div class="card-body p-5">
+
+                            <h6 class="mb-3">Awesome Todo List</h6>
+                            <form action="" method="POST" class="d-flex justify-content-center align-items-center mb-4">
+                                {% csrf_token %}
+                                <div class="form-outline flex-fill">
+                                    {{ Items.todo_content }}
+                                    <label class="form-label" for="form3">오늘 할일이 무엇인가요?</label>
+                                </div>
+                                <button type="submit" name="add_todo" class="btn btn-primary btn-lg ms-2">Add</button>
+                            </form>
+
+                            <ul class="list-group mb-0">
+                                {% for show in todo_list %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center border-start-0 border-top-0 border-end-0 border-bottom rounded-0 mb-2">
+                                    <div class="d-flex align-items-center justify-content-between w-100">
+                                        <form id="delete-form-{{ show.pk }}" action="/todo/item/" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="id" value="{{ show.pk }}">
+                                            <input class="form-check-input me-2" type="checkbox" id="{{ show.pk }}" name="checkbox">
+                                            <label for="{{ show.pk }}">{{ show.todo_content }}</label>
+                                        </form>
+                                        <button type="submit" form="delete-form-{{ show.pk }}" name="delete_todo" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                    {% endfor %}
+                                    {% if error %}
+                                    {{ error }}
+                                    {% endif %}
+                                </li>
+
+
+                            </ul>
+
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
-        </form>
-        {% for show in todo_list %}
-        <div class="">
-            <form id="delete-form-{{ show.pk }}" action="/todo/item/" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="id" value="{{ show.pk }}">
-                <input type="checkbox" id="{{ show.pk }}" name="checkbox">
-                <label for="{{ show.pk }}">{{ show.todo_content }}</label>
-                <span>
-                    <button type="submit" name="delete_todo">할일 완료</button>
-                </span>
-            </form>
-        {% endfor %}
-        {% if error %}
-        {{ error }}
-        {% endif %}
+
         </div>
     </div>
     <script>
