@@ -1,30 +1,57 @@
 <!DOCTYPE html>
-{% extends 'firstapp/index.html' %}
+<html lang="kr">
+    
+<head>
+    <title>TO_DO_page!</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
 
-{% block contents %}
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet"> 
 
-<div class="container">
-    <H2>게시판</H2>
-    <div>
-        <a href="{% url 'board:board_write' %}">
-        <button type="button" class="btn btn-outline-dark">글쓰기</button></a>
-    </div>
-    <div class="row border-top border-bottom py-2">
-        <div class="col-3">작성자</div>
-        <div class="col-6">제목</div>
-        <div class="col-3">작성일</div>
-    </div>
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
-    {% for board in board_list %}
-    <div class="row py-2">
-        <div class="col-3">{{ board.writer }}</div>
-        <div class="col-6">
-            <a href="/board/detail/{{ board.pk }}/" class="text-dark">{{ board.title }}</a>
+    <!-- Libraries Stylesheet -->
+    <link href="/static/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="/static/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <H2>게시판</H2>
+        <div>
+            <a href="{% url 'board:board_write' %}">
+            <button type="button" class="btn btn-outline-dark">글쓰기</button></a>
         </div>
-        <div class="col-3">{{ board.write_dttm|date:"Y-m-d" }}</div>
+        <div class="row border-top border-bottom py-2">
+            <div class="col-3">작성자</div>
+            <div class="col-6">제목</div>
+            <div class="col-3">작성일</div>
+        </div>
+    
+        {% for board in board_list %}
+        <div class="row py-2">
+            <div class="col-3">{{ board.writer }}</div>
+            <div class="col-6">
+                <a href="/board/detail/{{ board.pk }}/" class="text-dark">{{ board.title }}</a>
+            </div>
+            <div class="col-3">{{ board.write_dttm|date:"Y-m-d" }}</div>
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
+</body>
+
 </html>
 {% include 'board/pagination.html' %}
-{% endblock contents %}
