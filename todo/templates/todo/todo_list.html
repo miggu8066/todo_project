@@ -40,10 +40,10 @@
                                             {% csrf_token %}
                                             <input type="hidden" name="id" value="{{ show.pk }}">
                                             <input class="form-check-input me-2" type="checkbox" id="{{ show.pk }}" name="checkbox" onchange="toggleStrikethrough(this)">
-                                            <label for="{{ show.pk }}">{{ show.todo_content }}</label>
+                                            <input class="form-text-input me-2" type="text" id="edit-input-{{ show.pk }}" name="edit_todo" value="{{ show.todo_content }}" style="text-decoration: none;">
                                         </form>
                                         <div>
-                                            <button type="submit" id="{{ show.pk }}" name="modify" class="btn btn-sm btn-success" >
+                                            <button type="submit" form="edit-form-{{ show.pk }}" name="modify_todo" class="btn btn-sm btn-success" >
                                                 <i class="fa-solid fa-reply"></i>
                                             </button>
                                             <button type="submit" form="delete-form-{{ show.pk }}" name="delete_todo" class="btn btn-sm btn-danger">
@@ -69,25 +69,14 @@
 
         </div>
     </div>
-    
-    <script>
-        function modifytoggle(modify) {
-            var label = checkbox.nextElementSibling;
-            if (checkbox.checked) {
-                label.style.textDecoration = "line-through";
-            } else {
-                label.style.textDecoration = "none";
-            }
-        };
-    </script>
-    
+
     <script>
         function toggleStrikethrough(checkbox) {
-            var label = checkbox.nextElementSibling;
+            var input = document.getElementById('edit-input-' + checkbox.id);
             if (checkbox.checked) {
-                label.style.textDecoration = "line-through";
+                input.style.textDecoration = "line-through";
             } else {
-                label.style.textDecoration = "none";
+                input.style.textDecoration = "none";
             }
         };
     </script>
