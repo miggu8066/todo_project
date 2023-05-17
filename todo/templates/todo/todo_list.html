@@ -39,8 +39,8 @@
                                         <form id="delete-form-{{ show.pk }}" action="/todo/item/" method="POST">
                                             {% csrf_token %}
                                             <input type="hidden" name="id" value="{{ show.pk }}">
-                                            <input class="form-check-input me-2" type="checkbox" id="{{ show.pk }}" name="checkbox" onchange="toggleStrikethrough(this)">
-                                            <input class="form-text-input me-2" type="text" id="edit-input-{{ show.pk }}" name="edit_todo" value="{{ show.todo_content }}" style="text-decoration: none;">
+                                            <input class="form-check-input me-2" type="checkbox" id="edit-input-{{ show.pk }}" name="checkbox" onchange="toggleStrikethrough(this)">
+                                            <label for="edit-input-{{ show.pk }}">{{ show.todo_content }}</label>
                                         </form>
                                         <div>
                                             <button type="submit" form="edit-form-{{ show.pk }}" name="modify_todo" class="btn btn-sm btn-success" >
