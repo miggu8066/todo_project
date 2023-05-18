@@ -39,11 +39,11 @@
                                         <form id="delete-form-{{ show.pk }}" action="/todo/item/" method="POST">
                                             {% csrf_token %}
                                             <input type="hidden" name="id" value="{{ show.pk }}">
-                                            <input class="form-check-input me-2" type="checkbox" id="edit-input-{{ show.pk }}" name="checkbox" onchange="toggleStrikethrough(this)">
-                                            <label for="edit-input-{{ show.pk }}">{{ show.todo_content }}</label>
+                                            <input class="form-check-input me-2" type="checkbox" id="{{ show.pk }}" name="checkbox" onchange="toggleStrikethrough(this)">
+                                            <span id="item_{{ show.pk }}" onclick="editText('item_{{ show.pk }}')">{{ show.todo_content }}</span>
                                         </form>
                                         <div>
-                                            <button type="submit" form="edit-form-{{ show.pk }}" name="modify_todo" class="btn btn-sm btn-success" >
+                                            <button type="submit" class="btn btn-sm btn-success" >
                                                 <i class="fa-solid fa-reply"></i>
                                             </button>
                                             <button type="submit" form="delete-form-{{ show.pk }}" name="delete_todo" class="btn btn-sm btn-danger">
@@ -69,16 +69,23 @@
 
         </div>
     </div>
-
+    
     <script>
-        function toggleStrikethrough(checkbox) {
-            var input = document.getElementById('edit-input-' + checkbox.id);
-            if (checkbox.checked) {
-                input.style.textDecoration = "line-through";
-            } else {
-                input.style.textDecoration = "none";
-            }
-        };
+        function editText(itemId) {
+            var item = document.getElementById(itemId);
+            var text = item.innerText;
+            item.innerHTML = '<input type="text" value="' + text + '" onblur="updateText(this, \'' + itemId + '\')">';
+    
+            var inputField = item.querySelector('input');
+            inputField.focus();
+            inputField.setSelectionRange(0, inputField.value.length);
+        }
+    
+        function updateText(input, itemId) {
+            var item = document.getElementById(itemId);
+            var newText = input.value;
+            item.innerHTML = newText;
+        }
     </script>
 
     <script>
