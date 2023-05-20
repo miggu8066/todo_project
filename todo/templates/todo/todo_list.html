@@ -39,8 +39,10 @@
                                         <form id="delete-form-{{ show.pk }}" action="/todo/item/" method="POST">
                                             {% csrf_token %}
                                             <input type="hidden" name="id" value="{{ show.pk }}">
-                                            <input class="form-check-input me-2" type="checkbox" id="{{ show.pk }}" name="checkbox" onchange="toggleStrikethrough(this)">
-                                            <span id="item_{{ show.pk }}" onclick="editText('item_{{ show.pk }}')">{{ show.todo_content }}</span>
+                                            <div class="form-check">
+                                                <input class="form-check-input me-2" type="checkbox" id="checkbox_{{ show.pk }}" name="checkbox" onchange="toggleStrikethrough(this)">
+                                                <label class="form-check-label content" for="checkbox_{{ show.pk }}" onclick="editText('{{ show.pk }}', this)">{{ show.todo_content }}</label>
+                                            </div>
                                         </form>
                                         <div>
                                             <button type="submit" class="btn btn-sm btn-success" >
@@ -51,15 +53,12 @@
                                             </button>
                                         </div>
                                     </div>
-                                    {% endfor %}
-                                    {% if error %}
-                                    {{ error }}
-                                    {% endif %}
                                 </li>
-
-
+                                {% endfor %}
+                                {% if error %}
+                                {{ error }}
+                                {% endif %}
                             </ul>
-
                         </div>
                     </div>
 
@@ -71,24 +70,50 @@
     </div>
     
     <script>
-        function editText(itemId) {
-            var item = document.getElementById(itemId);
-            var text = item.innerText;
-            item.innerHTML = '<input type="text" value="' + text + '" onblur="updateText(this, \'' + itemId + '\')">';
-    
-            var inputField = item.querySelector('input');
-            inputField.focus();
-            inputField.setSelectionRange(0, inputField.value.length);
-        }
-    
-        function updateText(input, itemId) {
-            var item = document.getElementById(itemId);
-            var newText = input.value;
-            item.innerHTML = newText;
-        }
-    </script>
 
-    <script>
+        function toggleStrikethrough(checkbox) {
+        var label = checkbox.nextElementSibling;
+            if (checkbox.checked) {
+                label.style.textDecoration = "line-through";
+            } else {
+                label.style.textDecoration = "none";
+            }
+        }
+
+        function editText(itemId, label) {
+            var text = label.innerText;
+            label.innerHTML = '<input type="text" value="' + text + '">';
+            var input = label.querySelector('input');
+            input.focus();
+            input.setSelectionRange(0, input.value.length);
+
+            input.addEventListener('click', function(event) {
+                event.stopPropagation();
+            });
+
+            input.addEventListener('blur', function() {
+                if (input.value.trim() === '') {
+                    alert('오늘할일을 작성해주세요.');
+                    label.innerHTML = text;
+                } else {
+                    updateText(input, label);
+                }
+            });
+        }
+
+        function handleLabelClick(event) {
+            event.stopPropagation();
+        }
+
+        function updateText(input, label) {
+            var newText = input.value;
+            var span = document.createElement('span');
+            span.className = 'content';
+            span.innerText = newText;
+            label.innerHTML = '';
+            label.appendChild(span);
+        }
+
         const deleteForms = document.querySelectorAll('[id^="delete-form-"]');
 
         deleteForms.forEach((form) => {
