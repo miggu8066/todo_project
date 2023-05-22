@@ -1,25 +1,85 @@
 <!DOCTYPE html>
-{% extends 'firstapp/index.html' %}
+<html lang="kr">
 
-{% block contents %}
-<div>게시판 상세보기</div>
-<div style="border: 1px black solid; margin: 20px 0px;"></div>
+<head>
+    <meta charset="UTF-8">
+    <title>Green detail</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet"> 
 
-{% if writer %}
-<a href="/board/detail/{{ board.id }}/modify/"><button>수정</button></a>
-<a href="/board/detail/{{ board.id }}/delete/"><button>삭제</button></a>
-{% endif %}
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
-<div>
-    게시판 종류 : {{ board.board_name }}
-</div>
-<div>
-    작성자 : {{ board.writer }} | 작성일 : {{ board.write_dttm }} | 조회수 : {{ board.hits }}
-</div>
-<div>
-    제목 : {{ board.title }}
-</div>
-<div>
-    내용 : {{ board.contents|safe }}
-</div>
-{% endblock contents%}
+    <!-- Libraries Stylesheet -->
+    <link href="/static/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="/static/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="/static/css/style.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+</head>
+<body>
+    <div class="container">
+        <div>
+            <H2 class="container py-5 h-100"><a href="{% url 'todo_main:main_page' %}">board detail</a></H2>
+            {% if writer %}
+            <li>
+                수정 하시려면 
+                <div class="btn btn-sm btn-success">
+                    <i class="fa-solid fa-repeat"> 이 버튼을 눌러주세요</i>
+                </div>
+            </li>
+            <br>
+            <li>
+                삭제하시려면
+                <div class="btn btn-sm btn-danger">
+                    <i class="fa-solid fa-trash-can"> 이 버튼을 눌러주세요</i>
+                </div>
+            </li>
+            <div style="border: 1px green solid; margin: 20px 0px;"></div>
+            {% endif %}
+            
+            <div class="border border-success rounded p-5">
+                <div>
+                    <div class="text-center mb-4">
+                        제목 : {{ board.title }}
+                    </div>
+                    <div class="border-bottom mb-3">
+                        작성자 : {{ board.writer }}
+                    </div>
+                    <div class="border-bottom mb-3">
+                        내용 : {{ board.contents|safe }}
+                    </div>
+                    <div class="border-bottom mb-3">
+                        게시판 종류 : {{ board.board_name }} | 작성일 : {{ board.write_dttm }} | 조회수 : {{ board.hits }}
+                    </div>
+                </div>
+                {% if writer %}
+                <div class="d-flex justify-content-start border border-success rounded p-2" style="width: fit-content;">
+                    <div style="margin-right: 10px;">
+                        <a href="/board/detail/{{ board.id }}/modify/" class="btn btn-sm btn-success">
+                            <i class="fa-solid fa-repeat"></i></a>
+                    </div>
+                    <div>
+                        <a href="/board/detail/{{ board.id }}/delete/" class="btn btn-sm btn-danger" onclick="return confirm('정말 삭제하시겠습니까?');">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

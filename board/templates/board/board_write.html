@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-{% extends 'firstapp/index.html' %}
 
-{% block contents %}
 <div>게시판 글쓰기</div>
 <form action="" method="POST">
     {% csrf_token %}
@@ -18,4 +16,3 @@
     {% endif %}
     <button tybe="submit">투고 하기</button>
 </form>
-{% endblock contents %}
