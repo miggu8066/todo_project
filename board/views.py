@@ -23,22 +23,41 @@ def board_modify(request, pk):
         return render(request, 'board/board_modify.html', context)
     
     elif request.method == 'POST':
-        write_form = BoardWriteForm(request.POST)
+        if 'save_edit' in request.POST:
+            write_form = BoardWriteForm(request.POST)
 
-        if write_form.is_valid():
+            if write_form.is_valid():
+                
+                board.title = write_form.title
+                board.contents = write_form.contents
+                board.board_name = write_form.board_name
+
+                board.save()
+                return redirect('/board')
+            else:
+                context['forms'] = write_form
+                if write_form.errors:
+                    for value in write_form.errors.values():
+                        context['error'] = value
+                return render(request, 'board/board_modify.html', context)
             
-            board.title = write_form.title
-            board.contents = write_form.contents
-            board.board_name = write_form.board_name
+        elif 'save_temp' in request.POST:
+            write_form = BoardWriteForm(request.POST)
 
-            board.save()
-            return redirect('/board')
-        else:
-            context['forms'] = write_form
-            if write_form.errors:
-                for value in write_form.errors.values():
-                    context['error'] = value
-            return render(request, 'board/board_modify.html', context)
+            if write_form.is_valid():
+                board.title = write_form.title
+                board.contents = write_form.contents
+                board.board_name = write_form.board_name
+
+                board.save()
+                return redirect(f'/board/detail/{pk}/modify/')
+            else:
+                context['forms'] = write_form
+                if write_form.errors:
+                    for value in write_form.errors.values():
+                        context['error'] = value
+                return render(request, 'board/board_modify.html', context)
+
 
 def board_delete(request, pk):
     login_session = request.session.get('login_session', '')
