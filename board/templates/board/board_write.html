@@ -50,22 +50,29 @@
                     </div>
                     {% endif %}
                     <div>
-                        <button tybe="submit" class="btn btn-sm btn-success" name="save_edit" onclick="return confirm('완료 하시겠습니까?');">
+                        <button type="submit" class="btn btn-sm btn-success" name="save_write" onclick="return confirm('완료 하시겠습니까?');">
                             <i class="fa-solid fa-check">글 작성 완료</i>
                         </button>
-                        <button tybe="submit" class="btn btn-sm btn-warning" name="save_temp">
-                            <i class="fa-solid fa-clock-rotate-left"> 임시저장</i>
+                        <button type="submit" class="btn btn-sm btn-warning" name="save_temp">
+                            <i class="fa-solid fa-clock-rotate-left fa-beat-fade"> 임시저장</i>
                         </button>
                     </div>
                 </form>
             </div>
             <div class="col-md-6 border border-gray border-2 p-3" >
                 <H2 class="container py-3 mb-4 text-center"><a href="#">임시저장</a></H2>
+                {% if temp_boards %}
                 <ul>
+                    {% for temp in temp_boards%}
                     <li>
-                        <a href="#">글 제목 : {{ board.title }}</a>  <br> <small>{{ board.update_dttm }}</small>
+                        <a href="{% url 'board:board_write' %}?temp_board_id={{ temp.id }}">
+                            글 제목: {{ temp.title }}
+                        </a><br>
+                        <small>{{ temp.temporary_saved_at }}</small>
                     </li>
+                    {% endfor %}
                 </ul>
+                {% endif %}
             </div>
         </div>
     </div>

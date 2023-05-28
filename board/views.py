@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 from .forms import BoardWriteForm
 from .models import Board
 from user.models import User
@@ -118,26 +119,71 @@ def board_write(request):
     context = { 'login_session' : login_session }
 
     if request.method == 'GET':
-        write_form = BoardWriteForm()
+        temp_boards = Board.objects.filter(writer__user_id=login_session, is_temporary=True).order_by('-temporary_saved_at')
+        context['temp_boards'] = temp_boards
+
+        temp_board_id = request.GET.get('temp_board_id')
+        if temp_board_id:
+            temp_board = Board.objects.get(id=temp_board_id)
+            initial_data = {
+                'title': temp_board.title,
+                'contents': temp_board.contents,
+                'board_name': temp_board.board_name,
+            }
+            write_form = BoardWriteForm(initial=initial_data)
+        else:
+            write_form = BoardWriteForm()
+
         context['forms'] = write_form
+
         return render(request, 'board/board_write.html', context)
     
     elif request.method == 'POST':
-        write_form = BoardWriteForm(request.POST)
+        if 'save_write' in request.POST:
+            write_form = BoardWriteForm(request.POST)
 
-        if write_form.is_valid():
-            writer = User.objects.get(user_id=login_session)
-            board = Board(
-                title = write_form.title,
-                contents = write_form.contents,
-                writer = writer,
-                board_name = write_form.board_name
-            )
-            board.save()
-            return redirect('/board')
-        else:
-            context['forms'] = write_form
-            if write_form.errors:
-                for value in write_form.errors.values():
-                    context['error'] = value
-            return render(request, 'board/board_write.html', context)
+            if write_form.is_valid():
+                writer = User.objects.get(user_id=login_session)
+                board = Board(
+                    title=write_form.title,
+                    contents=write_form.contents,
+                    writer=writer,
+                    board_name=write_form.board_name
+                )
+                board.save()
+
+                Board.objects.filter(writer__user_id=login_session, is_temporary=True).delete()
+                
+                return redirect('/board')
+            else:
+                context['forms'] = write_form
+                if write_form.errors:
+                    for value in write_form.errors.values():
+                        context['error'] = value
+                temp_boards = Board.objects.filter(writer__user_id=login_session, is_temporary=True).order_by('-temporary_saved_at')
+                context['temp_boards'] = temp_boards
+                return render(request, 'board/board_write.html', context)
+            
+        elif 'save_temp' in request.POST:
+            write_form = BoardWriteForm(request.POST)
+
+            if write_form.is_valid():
+                writer = User.objects.get(user_id=login_session)
+                board = Board(
+                    title=write_form.title,
+                    contents=write_form.contents,
+                    writer=writer,
+                    board_name=write_form.board_name,
+                    is_temporary=True,
+                    temporary_saved_at=datetime.now()
+                )
+                board.save()
+                return redirect(reverse('board:board_write') + '?temp_board_id=' + str(board.id))
+            else:
+                context['forms'] = write_form
+                if write_form.errors:
+                    for value in write_form.errors.values():
+                        context['error'] = value
+                temp_boards = Board.objects.filter(writer__user_id=login_session, is_temporary=True).order_by('-temporary_saved_at')
+                context['temp_boards'] = temp_boards
+                return render(request, 'board/board_write.html', context)

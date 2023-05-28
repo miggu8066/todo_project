@@ -10,6 +10,9 @@ class Board(models.Model):
     update_dttm = models.DateTimeField(auto_now=True, verbose_name='마지막 수정일')
     hits = models.PositiveIntegerField(default=0, verbose_name='조회수')
 
+    is_temporary = models.BooleanField(default=False, verbose_name='임시저장 여부')
+    temporary_saved_at = models.DateTimeField(null=True, blank=True, verbose_name='임시저장 시간')
+
     def __str__(self):
         return self.title
     
