@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from .forms import BoardWriteForm
-from .models import Board
+from .models import Board, TemporaryBoard
 from user.models import User
 from user.decorators import login_required
 from datetime import date, datetime, timedelta
@@ -119,16 +119,16 @@ def board_write(request):
     context = { 'login_session' : login_session }
 
     if request.method == 'GET':
-        temp_boards = Board.objects.filter(writer__user_id=login_session, is_temporary=True).order_by('-temporary_saved_at')
+        temp_boards = TemporaryBoard.objects.filter(writer__user_id=login_session).order_by('-temporary_saved_at')
         context['temp_boards'] = temp_boards
 
         temp_board_id = request.GET.get('temp_board_id')
         if temp_board_id:
-            temp_board = Board.objects.get(id=temp_board_id)
+            temp_board = TemporaryBoard.objects.get(id=temp_board_id)
             initial_data = {
                 'title': temp_board.title,
                 'contents': temp_board.contents,
-                'board_name': temp_board.board_name,
+                'write_dttm': temp_board.temporary_saved_at,
             }
             write_form = BoardWriteForm(initial=initial_data)
         else:
@@ -152,15 +152,14 @@ def board_write(request):
                 )
                 board.save()
 
-                Board.objects.filter(writer__user_id=login_session, is_temporary=True).delete()
-                
                 return redirect('/board')
+            
             else:
                 context['forms'] = write_form
                 if write_form.errors:
                     for value in write_form.errors.values():
                         context['error'] = value
-                temp_boards = Board.objects.filter(writer__user_id=login_session, is_temporary=True).order_by('-temporary_saved_at')
+                temp_boards = TemporaryBoard.objects.filter(writer__user_id=login_session).order_by('-temporary_saved_at')
                 context['temp_boards'] = temp_boards
                 return render(request, 'board/board_write.html', context)
             
@@ -169,21 +168,25 @@ def board_write(request):
 
             if write_form.is_valid():
                 writer = User.objects.get(user_id=login_session)
-                board = Board(
+                temp_board = TemporaryBoard(
                     title=write_form.title,
                     contents=write_form.contents,
                     writer=writer,
-                    board_name=write_form.board_name,
-                    is_temporary=True,
                     temporary_saved_at=datetime.now()
                 )
-                board.save()
-                return redirect(reverse('board:board_write') + '?temp_board_id=' + str(board.id))
+                temp_board.save()
+                return redirect(reverse('board:board_write') + '?temp_board_id=' + str(temp_board.id))
             else:
                 context['forms'] = write_form
                 if write_form.errors:
                     for value in write_form.errors.values():
                         context['error'] = value
-                temp_boards = Board.objects.filter(writer__user_id=login_session, is_temporary=True).order_by('-temporary_saved_at')
+                temp_boards = TemporaryBoard.objects.filter(writer__user_id=login_session).order_by('-temporary_saved_at')
                 context['temp_boards'] = temp_boards
                 return render(request, 'board/board_write.html', context)
+        
+        elif 'delete_temp' in request.POST:
+            delete_temp_id = request.POST.get('delete_temp')
+            delete_temp_board = TemporaryBoard.objects.get(id=delete_temp_id)
+            delete_temp_board.delete()
+            return redirect(reverse('board:board_write'))

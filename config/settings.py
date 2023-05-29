@@ -155,7 +155,7 @@ SUMMERNOTE_CONFIG = {
 
             # Summernote settings
             'summernote': {
-                'width': 600,
+                'width': 900,
                 'height': 480,
                 'lang': 'ko-KR',
                 'toolbar': [
