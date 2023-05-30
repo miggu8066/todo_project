@@ -41,28 +41,33 @@ def todo_main(request):
                 return render(request, "todo/todo_list.html", context)
         
         elif 'delete_todo' in request.POST:
-                DeleteForm = TodoDeleteForm(request.POST)
+            DeleteForm = TodoDeleteForm(request.POST)
 
-                if DeleteForm.is_valid():
-                    if 'checkbox' in request.POST:
-                        todo_id = DeleteForm.cleaned_data['id']
-                        Todo_list.objects.filter(id=todo_id).delete()
-                        return redirect('/todo/item/')
-                    else:
-                        context = {
-                            'Items': TodoItemsForm(),
-                            'DeleteForm': TodoDeleteForm(),
-                            'login_session': login_session,
-                            'error': '체크박스를 선택하세요.'
-                        }
-                        if DeleteForm.errors:
-                            context['error'] = DeleteForm.errors.as_text()
-                        return render(request, "todo/todo_list.html", context)
+            if DeleteForm.is_valid():
+                if 'checkbox' in request.POST:
+                    todo_id = DeleteForm.cleaned_data['id']
+                    Todo_list.objects.filter(id=todo_id).delete()
+                    return redirect('/todo/item/')
                 else:
                     context = {
                         'Items': TodoItemsForm(),
-                        'DeleteForm': DeleteForm,
+                        'DeleteForm': TodoDeleteForm(),
                         'login_session': login_session,
-                        'error': DeleteForm.errors.as_text()
+                        'error': '체크박스를 선택하세요.'
                     }
+                    if DeleteForm.errors:
+                        context['error'] = DeleteForm.errors.as_text()
                     return render(request, "todo/todo_list.html", context)
+            else:
+                context = {
+                    'Items': TodoItemsForm(),
+                    'DeleteForm': DeleteForm,
+                    'login_session': login_session,
+                    'error': DeleteForm.errors.as_text()
+                }
+                return render(request, "todo/todo_list.html", context)
+
+        elif 'delete_all' in request.POST:
+            todo_list = Todo_list.objects.filter(writer__user_id=login_session)
+            todo_list.delete()
+            return redirect('/todo/item/')

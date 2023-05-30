@@ -23,25 +23,16 @@
     
     <!-- Custom Stylesheet -->
     <style>
-        .resizable-left {
-            overflow: auto;
-            position: relative; /* 추가 */
-        }
-
+        /* 임시저장 리스트 스크롤 적용 */
         .resizable-right {
-            overflow: auto;
-            position: relative; /* 추가 */
+            overflow-y: auto;
         }
-
-        .resizer {
-            width: 10px;
-            background-color: #e0e0e0;
-            cursor: ew-resize;
-            position: absolute;
-            top: 0;
-            right: -5px;
-            bottom: 0;
-            z-index: 1; /* 추가 */
+        
+        /* 임시저장 리스트 제목 글자 줄바꿈 및 공간 제한 */
+        .temp-board-title {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     </style>
 
@@ -49,7 +40,7 @@
 <body>
     <div class="container mt-5">
         <div class="row">
-            <div class="col-md-9 border border-gray border-2 p-3 resizable-left">
+            <div class="col-md-9 border border-gray border-2 p-3">
                 <H2 class="container py-3 mb-4 text-center"><a href="{% url 'todo_main:main_page' %}">board write</a></H2>
                 <form action="" method="POST">
                     {% csrf_token %}
@@ -76,25 +67,29 @@
                     </div>
                 </form>
             </div>
-            <div class="col-md-3 border border-gray border-2 p-3 resizable-right" >
+            <div class="col-md-3 border border-gray border-2 p-3" >
                 <H2 class="container py-3 mb-4 text-center"><a href="#">임시저장 LIST</a></H2>
                 {% if temp_boards %}
                 <ul class="list-unstyled">
                     {% for temp in temp_boards%}
                         <div class="d-flex justify-content-between border rounded-pill p-3">
-                            <div>
+                            <div class="temp-board-title">
                                 <a href="{% url 'board:board_write' %}?temp_board_id={{ temp.id }}">
                                     제목: {{ temp.title }}
-                                </a><br>
-                                <small>{{ temp.temporary_saved_at }}</small>
+                                </a>
+                                <div>
+                                    <small>{{ temp.temporary_saved_at }}</small>
+                                </div>
                             </div>
-                            <form action="" method="POST" class="d-inline-block d-flex align-items-center">
-                                {% csrf_token %}
-                                <input type="hidden" name="delete_temp" value="{{ temp.id }}">
-                                <button type="submit" class="btn btn-sm btn-danger">
-                                    삭제
-                                </button>
-                            </form>
+                            <div class="d-flex align-items-center flex-shrink-0">
+                                <form action="" method="POST" class="d-inline-block">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="delete_temp" value="{{ temp.id }}">
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        삭제
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     <br>
                     {% endfor %}
@@ -103,30 +98,5 @@
             </div>
         </div>
     </div>
-    <script>
-        const resizableLeft = document.querySelector('.resizable-left');
-        const resizableRight = document.querySelector('.resizable-right');
-        const resizer = document.createElement('div');
-        resizer.className = 'resizer';
-        resizableLeft.appendChild(resizer);
-
-        resizer.addEventListener('mousedown', initResize, false);
-
-        function initResize(e) {
-            window.addEventListener('mousemove', resize, false);
-            window.addEventListener('mouseup', stopResize, false);
-        }
-
-        function resize(e) {
-            const width = e.clientX - resizableLeft.getBoundingClientRect().left;
-            resizableLeft.style.width = `${width}px`;
-            resizableRight.style.width = `calc(100% - ${width}px)`;
-        }
-
-        function stopResize() {
-            window.removeEventListener('mousemove', resize, false);
-            window.removeEventListener('mouseup', stopResize, false);
-        }
-    </script>
 </body>
 </html>

@@ -32,22 +32,30 @@
                 <div class="col col-xl-10">
                     <div class="card" style="border-radius: 15px;">
                         <div class="card-body p-5">
-
                             <div class="alert alert-success d-flex align-items-center" role="alert">
                                 <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
                                 <div>
                                   해당 할일 항목을 클릭하면 수정 할 수 있습니다!
                                 </div>
                             </div>
-                            <form action="" method="POST" class="d-flex justify-content-center align-items-center mb-4">
-                                {% csrf_token %}
-                                <div class="form-outline flex-fill">
-                                    {{ Items.todo_content }}
-                                    <label class="form-label" for="form3">오늘 할일이 무엇인가요?</label>
-                                </div>
-                                <button type="submit" name="add_todo" class="btn btn-primary btn-lg ms-2">Add</button>
-                            </form>
-
+                            <div class="d-flex justify-content-center">
+                                <form action="" method="POST" class="d-flex justify-content-center align-items-center mb-4">
+                                    {% csrf_token %}
+                                    <div class="form-outline flex-fill">
+                                        {{ Items.todo_content }}
+                                        <label class="form-label" for="form3">오늘 할일이 무엇인가요?</label>
+                                    </div>
+                                    <button type="submit" name="add_todo" class="btn btn-primary btn-lg ms-2">Add</button>
+                                </form>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <form action="" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" name="delete_all" class="btn btn-warning btn-lg ms-2" onclick="return confirmDelete()">
+                                        <i class="fa-solid fa-eraser fa-bounce"></i>
+                                    </button>
+                                </form>
+                            </div>
                             <ul class="list-group mb-0">
                                 {% for show in todo_list %}
                                 <li class="list-group-item d-flex justify-content-between align-items-center border-start-0 border-top-0 border-end-0 border-bottom rounded-0 mb-2">
@@ -84,12 +92,26 @@
     
     <script>
 
+        window.addEventListener('DOMContentLoaded', (event) => {
+                document.querySelector('input[name="todo_content"]').focus();
+        });
+
+        function confirmDelete() {
+            if (confirm('정말로 할일 목록을 모두 삭제하시겠습니까?')) {
+                document.getElementById('delete-form').submit();
+            } else {
+                return false; // 취소 버튼을 눌렀을 때 함수를 종료하고 삭제 동작이 실행되지 않도록 합니다.
+            }
+        }
+        
         function toggleStrikethrough(checkbox) {
         var label = checkbox.nextElementSibling;
             if (checkbox.checked) {
                 label.style.textDecoration = "line-through";
+                label.style.pointerEvents = "none";
             } else {
                 label.style.textDecoration = "none";
+                label.style.pointerEvents = "auto";
             }
         }
 
@@ -109,7 +131,7 @@
                     alert('오늘할일을 작성해주세요.');
                     label.innerHTML = text;
                 } else {
-                    updateText(input, label);
+                    updateText(input, label, itemId);
                 }
             });
         }
@@ -138,6 +160,37 @@
                 }
             });
         });
+
+        function updateTodoItem(itemId, newText) {
+            $.ajax({
+                type: "POST",
+                url: "/todo/update/",
+                data: {
+                    item_id: itemId,
+                    new_text: newText,
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                },
+                success: function (response) {
+                    // 성공적으로 업데이트되었을 때 처리할 로직을 여기에 작성합니다.
+                    console.log(response);
+                },
+                error: function (xhr, status, error) {
+                    // 업데이트 실패 시 처리할 로직을 여기에 작성합니다.
+                    console.log(error);
+                },
+            });
+        }
+        function updateText(input, label, itemId) {
+            var newText = input.value;
+            var span = document.createElement("span");
+            span.className = "content";
+            span.innerText = newText;
+            label.innerHTML = "";
+            label.appendChild(span);
+
+            updateTodoItem(itemId, newText);
+        }
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 </html>
