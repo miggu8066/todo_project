@@ -3,7 +3,7 @@ from django.db import models
 class Todo_list(models.Model):
     writer = models.ForeignKey('user.User', on_delete=models.CASCADE, verbose_name='작성자')
     todo_content = models.CharField(max_length=500)
-
+    #여기서 부터 다시 시작
     def __str__(self):
         return self.todo_content
     
