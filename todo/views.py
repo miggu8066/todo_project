@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, render, redirect
 from todo.forms import TodoItemsForm, TodoDeleteForm
 from .models import Todo_list
 from user.models import User
@@ -71,3 +72,19 @@ def todo_main(request):
             todo_list = Todo_list.objects.filter(writer__user_id=login_session)
             todo_list.delete()
             return redirect('/todo/item/')
+        
+@login_required
+def update_todo(request):
+    if request.method == 'POST':
+        item_id = request.POST.get('item_id')
+        new_text = request.POST.get('new_text')
+
+        try:
+            todo_item = Todo_list.objects.get(id=item_id, writer__user_id=request.session.get('login_session'))
+            todo_item.todo_content = new_text
+            todo_item.save()
+            return JsonResponse({'success': True})
+        except Todo_list.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Todo item not found.'})
+
+    return JsonResponse({'success': False, 'error': 'Invalid request method.'})

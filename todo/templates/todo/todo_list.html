@@ -89,7 +89,7 @@
 
         </div>
     </div>
-    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
 
         window.addEventListener('DOMContentLoaded', (event) => {
@@ -140,13 +140,15 @@
             event.stopPropagation();
         }
 
-        function updateText(input, label) {
+        function updateText(input, label, itemId) {
             var newText = input.value;
-            var span = document.createElement('span');
-            span.className = 'content';
+            var span = document.createElement("span");
+            span.className = "content";
             span.innerText = newText;
-            label.innerHTML = '';
+            label.innerHTML = "";
             label.appendChild(span);
+
+            updateTodoItem(itemId, newText);
         }
 
         const deleteForms = document.querySelectorAll('[id^="delete-form-"]');
@@ -180,17 +182,7 @@
                 },
             });
         }
-        function updateText(input, label, itemId) {
-            var newText = input.value;
-            var span = document.createElement("span");
-            span.className = "content";
-            span.innerText = newText;
-            label.innerHTML = "";
-            label.appendChild(span);
-
-            updateTodoItem(itemId, newText);
-        }
     </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
 </body>
 </html>
