@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Green Board</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,30 +27,69 @@
     <!-- Template Stylesheet -->
     <link href="/static/css/style.css" rel="stylesheet">
 </head>
+
 <body>
-    <div class="container">
-        <H2 class="container py-5 h-100"><a href="{% url 'todo_main:main_page' %}">Green Board</a></H2>
-        <div>
-            <div class="d-flex justify-content-end mb-3">
-                <a href="{% url 'board:board_write' %}">
-                <button type="button" class="btn btn-outline-dark">글쓰기</button></a>
-            </div>
-            <div class="row border-top border-bottom py-2">
-                <div class="col-3">작성자</div>
-                <div class="col-6">제목</div>
-                <div class="col-3">작성일</div>
-            </div>
+    <div class="container-xxl bg-white p-0">
+        <div class="container-xxl position-relative p-0">
+            <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
+                <a href="{% url 'todo_main:main_page' %}" class="navbar-brand p-0">
+                    <h1 class="m-0">To Do Today</h1>
+                    <!-- <img src="img/logo.png" alt="Logo"> -->
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="fa fa-bars"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav ms-auto py-0">
+                        <a href="{% url 'todo_main:main_page' %}" class="nav-item nav-link">Home</a>
+                        <a href="{% url 'todo:todo_main' %}" class="nav-item nav-link">Today_list</a>
+                        <a href="{% url 'board:board_list' %}" class="nav-item nav-link">board</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                            <div class="dropdown-menu m-0">
+                                <a href="feature.html" class="dropdown-item">Features</a>
+                                <a href="quote.html" class="dropdown-item">Free Quote</a>
+                                <a href="team.html" class="dropdown-item">Our Team</a>
+                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                                <a href="404.html" class="dropdown-item">404 Page</a>
+                            </div>
+                        </div>
+                        <a href="contact.html" class="nav-item nav-link">about</a>
+                    </div>
+                    <a href="{% url 'user:login' %}" class="btn btn-light rounded-pill text-primary py-2 px-4 ms-lg-5">로그인</a>
+                </div>
+            </nav>
         </div>
-    
-        {% for board in board_list %}
-        <div class="row py-2">
-            <div class="col-3">{{ board.writer }}</div>
-            <div class="col-6">
-                <a href="/board/detail/{{ board.pk }}/" class="text-dark">{{ board.title }}</a>
+    <div>
+    <section class="vh-100" style="background: linear-gradient(to bottom right, #b1e7d3,#ffffff);">
+    <div class="container-xxl bg-primary hero-header">
+        <div class="card position-relative mx-auto" style="border-radius: 15px; height: 500px; margin-top: 100px; width: 70%;">
+            <div class="container">
+                <div class="row d-flex justify-content-center">
+                    <div class="row d-flex justify-content-center">
+                        <div class="d-flex justify-content-end mb-3">
+                            <a href="{% url 'board:board_write' %}">
+                            <button type="button" class="btn btn-outline-dark">글쓰기</button></a>
+                        </div>
+                        <div class="row border-top border-bottom py-2">
+                            <div class="col-3">작성자</div>
+                            <div class="col-6">제목</div>
+                            <div class="col-3">작성일</div>
+                        </div>
+                    </div>
+                    {% for board in board_list %}
+                    <div class="row py-2">
+                        <div class="col-3">{{ board.writer }}</div>
+                        <div class="col-6">
+                            <a href="/board/detail/{{ board.pk }}/" class="text-dark">{{ board.title }}</a>
+                        </div>
+                        <div class="col-3">{{ board.write_dttm|date:"Y-m-d" }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
-            <div class="col-3">{{ board.write_dttm|date:"Y-m-d" }}</div>
+
         </div>
-        {% endfor %}
     </div>
 </body>
 
