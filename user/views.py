@@ -41,7 +41,7 @@ def RegisterAndLogin(request):
                 user_email = registerforms.user_email,
             )
             user.save()
-            return redirect('회원가입성공')
+            return redirect('/user/RegisterAndLogin/')
         else:
             context['registerforms'] = registerforms
 

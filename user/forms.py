@@ -100,7 +100,7 @@ class RegisterFrom(forms.ModelForm):
         else:
             self.user_id = user_id
             self.user_pw = PasswordHasher().hash(user_pw)
-            self.user_pw_confirm = user_pw_confirm
+            self.user_pw_confirm = PasswordHasher().hash(user_pw_confirm)
             self.user_name = user_name
             self.user_email = user_email
 
