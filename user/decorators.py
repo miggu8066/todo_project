@@ -6,6 +6,6 @@ def login_required(func):
         login_session = request.session.get('login_session','')
 
         if login_session == '':
-            return redirect('/user/login/')
+            return redirect('/user/RegisterAndLogin/')
         return func(request, *args, **kwargs)
     return wrapper
