@@ -1,9 +1,11 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from .models import User
 from django.db import transaction
 from argon2 import PasswordHasher
 from .forms import RegisterFrom, LoginForm
+from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 
 def RegisterAndLogin(request):
     loginforms = LoginForm()

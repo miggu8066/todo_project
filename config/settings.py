@@ -31,9 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "user",
     "todo",
     "board",
-    "user",
     "firstapp",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -174,3 +174,26 @@ SUMMERNOTE_CONFIG = {
                 ],
             }
 }
+
+#SMTP Configuration
+# Email 전송
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# gmail과의 통신하는 포트
+EMAIL_PORT = 587
+
+# 메일을 호스트하는 서버
+EMAIL_HOST = 'smtp.naver.com'
+
+
+# TLS 보안 방법
+EMAIL_USE_TLS = True
+
+# 발신할 이메일
+EMAIL_HOST_USER = 'gksruf9017@naver.com'
+
+# 발신할 메일의 비밀번호
+EMAIL_HOST_PASSWORD = 'qudtls80'
+
+# 사이트와 관련한 자동응답을 받을 이메일 주소
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER 
