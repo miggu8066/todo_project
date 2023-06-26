@@ -84,8 +84,11 @@ DATABASES = {
         "NAME": "todo",
         "USER": "project",
         "PASSWORD": "",
-        "HOST": "localhost",
-        "PORT": "3306"
+        "HOST": "127.0.0.1",
+        "PORT": "3306",
+        'OPTIONS': {
+            'read_default_file': '/opt/lampp/etc/my.cnf',
+        }
     }
 }
 
