@@ -18,14 +18,6 @@
     <!-- MDB -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.css" rel="stylesheet"/>
 
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
-    <link href="/static/lib/animate/animate.min.css" rel="stylesheet">
-    <link href="/static/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
     <!-- Customized Bootstrap Stylesheet -->
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
 
@@ -131,7 +123,7 @@
                                         {% csrf_token %}
                                         <input type="hidden" name="id" value="{{ show.pk }}">
                                         <div class="form-check">
-                                            <input class="form-check-input me-2" type="checkbox" id="checkbox_{{ show.pk }}" name="checkbox" onchange="toggleStrikethrough(this)">
+                                            <input class="check-input me-2" type="checkbox" id="checkbox_{{ show.pk }}" name="checkbox" onchange="toggleStrikethrough(this)">
                                             <label class="form-check-label content" for="checkbox_{{ show.pk }}" onclick="editText('{{ show.pk }}', this)">{{ show.todo_content }}</label>
                                         </div>
                                     </form>
