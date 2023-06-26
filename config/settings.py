@@ -85,10 +85,10 @@ DATABASES = {
         "USER": "project",
         "PASSWORD": "",
         "HOST": "127.0.0.1",
-        "PORT": "3306",
-        'OPTIONS': {
-            'read_default_file': '/opt/lampp/etc/my.cnf',
-        }
+        # "PORT": "3306",
+        # 'OPTIONS': {
+        #     'read_default_file': '/opt/lampp/etc/my.cnf',
+        # }
     }
 }
 
