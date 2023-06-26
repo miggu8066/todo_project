@@ -1,11 +1,28 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
+from user.decorators import login_required
 from .models import User
 from django.db import transaction
 from argon2 import PasswordHasher
 from .forms import RegisterFrom, LoginForm
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
+
+@login_required
+def Myinfo(request):
+    login_session = request.session.get('login_session', '')
+    context = { 'login_session' : login_session }
+
+    user = User.objects.get(user_id=login_session)
+
+    context = {
+        'user_name': user.user_name,
+        'user_email': user.user_email,
+        'user_id': user.user_id,
+    }
+
+    return render(request, 'user/myinfo.html', context)
+
 
 def RegisterAndLogin(request):
     loginforms = LoginForm()

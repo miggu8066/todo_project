@@ -28,11 +28,13 @@
 
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+
+    
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container mt-5 d-flex justify-content-center align-items-center">
         <div class="row">
-            <div class="col-md-6 border border-gray border-2 p-3">
+            <div class="col-md-13 border border-gray border-2 p-3">
                 <H2 class="container py-3 mb-4 text-center"><a href="{% url 'todo_main:main_page' %}">board update</a></H2>
                 <form action="" method="POST">
                     {% csrf_token %}
@@ -53,20 +55,10 @@
                         <button tybe="submit" class="btn btn-sm btn-success" name="save_edit" onclick="return confirm('정말 수정 하시겠습니까?');">
                             <i class="fa-solid fa-check"> 수정하기</i>
                         </button>
-                        <button tybe="submit" class="btn btn-sm btn-warning" name="save_temp">
-                            <i class="fa-solid fa-clock-rotate-left"> 임시저장</i>
-                        </button>
                     </div>
                 </form>
             </div>
-            <div class="col-md-6 border border-gray border-2 p-3" >
-                <H2 class="container py-3 mb-4 text-center"><a href="#">임시저장</a></H2>
-                <ul>
-                    <li>
-                        <a href="#">글 제목 : {{ board.title }}</a>  <br> <small>{{ board.update_dttm }}</small>
-                    </li>
-                </ul>
-            </div>
+
         </div>
     </div>
 </body>

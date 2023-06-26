@@ -41,7 +41,13 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-9 border border-gray border-2 p-3">
-                <H2 class="container py-3 mb-4 text-center"><a href="{% url 'todo_main:main_page' %}">board write</a></H2>
+                <H2 class="container py-3 mb-4 text-center">
+                    <a href="{% url 'todo_main:main_page' %}">board write</a>
+                    <H6>
+                        <i class="fa-regular fa-circle-question fa-beat"></i> 홈으로 가시려면 메인 페이지  "  <a href="">board write</a>  " 를 클릭해주세요
+                    </H6>
+                </H2>
+                <br>
                 <form action="" method="POST">
                     {% csrf_token %}
                 
@@ -68,7 +74,7 @@
                 </form>
             </div>
             <div class="col-md-3 border border-gray border-2 p-3" >
-                <H2 class="container py-3 mb-4 text-center"><a href="#">임시저장 LIST</a></H2>
+                <H3 class="container py-3 mb-4 text-center"><a href="#">내 임시저장 LIST</a></H3>
                 {% if temp_boards %}
                 <ul class="list-unstyled">
                     {% for temp in temp_boards%}

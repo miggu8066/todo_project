@@ -8,6 +8,9 @@
     <meta content="" name="keywords">
     <meta content="" name="description">
 
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -56,14 +59,14 @@
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                             <div class="dropdown-menu m-0">
-                                <a href="feature.html" class="dropdown-item">Features</a>
-                                <a href="quote.html" class="dropdown-item">Free Quote</a>
-                                <a href="team.html" class="dropdown-item">Our Team</a>
-                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                <a href="404.html" class="dropdown-item">404 Page</a>
+                                <a href="feature.html" class="dropdown-item">Update Soon</a>
+                                <a href="quote.html" class="dropdown-item">Update Soon</a>
+                                <a href="team.html" class="dropdown-item">Update Soon</a>
+                                <a href="testimonial.html" class="dropdown-item">Update Soon</a>
+                                <a href="404.html" class="dropdown-item">Update Soon</a>
                             </div>
                         </div>
-                        <a href="contact.html" class="nav-item nav-link">about</a>
+                        <a href="{% url 'user:myinfo' %}" class="nav-item nav-link">My info</a>
                     </div>
                     {% if login_session %}
                     <a href="{% url 'user:logout' %}" class="btn btn-light rounded-pill text-primary py-2 px-4 ms-lg-5">로그아웃</a>
@@ -78,6 +81,9 @@
     <div class="container-xxl bg-primary hero-header">
         <div class="card position-relative mx-auto" style="border-radius: 15px; height: 500px; margin-top: 100px; width: 70%;">
             <div class="container">
+                <div class="col-12 mt-5 text-center">
+                    <i class="fa-regular fa-circle-question fa-beat">  click on the title</i>
+                </div>
                 <div class="row d-flex justify-content-center">
                     <div class="row d-flex justify-content-center">
                         <div class="d-flex justify-content-end mb-3">
@@ -104,6 +110,7 @@
             <!-- Back to Top -->
             <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
         </div>
+        {% include 'board/pagination.html' %}
     </div>
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -117,4 +124,3 @@
 </body>
 
 </html>
-{% include 'board/pagination.html' %}

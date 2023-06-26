@@ -6,6 +6,8 @@ app_name = 'user'
 urlpatterns = [
     path("RegisterAndLogin/", views.RegisterAndLogin, name='RegisterAndLogin'),
     path("logout/", views.logout, name='logout'),
+    path("myinfo/", views.Myinfo, name='myinfo'),
+
     
     path('reset_password/',
          auth_views.PasswordResetView.as_view(template_name="user/password_reset.html"),
