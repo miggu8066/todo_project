@@ -84,7 +84,7 @@ DATABASES = {
         "NAME": "todo",
         "USER": "root",
         "PASSWORD": "1234",
-        "HOST": "hkdev.mysql.pythonanywhere-services.com",
+        "HOST": "127.0.0.1",
         "PORT": "3306",
     }
 }
