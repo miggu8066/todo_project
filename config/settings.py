@@ -81,10 +81,10 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "todo",
-        "USER": "root",
+        "NAME": "hkdev$default",
+        "USER": "hkdev",
         "PASSWORD": "1234",
-        "HOST": "127.0.0.1",
+        "HOST": "hkdev.mysql.pythonanywhere-services.com",
         "PORT": "3306",
     }
 }
