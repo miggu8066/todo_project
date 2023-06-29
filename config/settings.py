@@ -81,8 +81,8 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "todo",
-        "USER": "root",
+        "NAME": "hkdev$todo",
+        "USER": "hkdev",
         "PASSWORD": "1234",
         "HOST": "127.0.0.1",
         "PORT": "3306",
